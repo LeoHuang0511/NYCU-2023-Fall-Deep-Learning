@@ -42,15 +42,6 @@ class Linear(Layer):
         return np.dot(grad, self.params['weight'].T)
 
 
-class ReLU(Layer):
-
-    def forward(self, x):
-        return np.maximum(x, 0)
-
-    def backward(self, grad):
-        return grad * (self.inputs > 0)
-
-
 class Sigmoid(Layer):
 
     def forward(self, x):
