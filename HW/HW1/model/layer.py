@@ -12,11 +12,6 @@ class Layer:
         self.inputs = x
         return self.forward(x)
 
-    def forward(self, x):
-        raise NotImplementedError
-
-    def backward(self, grad):
-        raise NotImplementedError
 
     def update(self, learning_rate):
         for key in self.params:
@@ -43,6 +38,7 @@ class Linear(Layer):
             'weight': np.dot(self.inputs.T, grad),
             'bias': np.sum(grad, axis=0),
         }
+        
         return np.dot(grad, self.params['weight'].T)
 
 
@@ -58,10 +54,11 @@ class ReLU(Layer):
 class Sigmoid(Layer):
 
     def forward(self, x):
-        return (1 + np.tanh(x / 2)) / 2
+        return 1/(1 + np.exp(-x))
+
 
     def backward(self, grad):
-        sigmoid = (1 + np.tanh(self.inputs / 2)) / 2
+        sigmoid = 1/(1 + np.exp(-self.inputs))
         return grad * (1 - sigmoid) * sigmoid
     
     
